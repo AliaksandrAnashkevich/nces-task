@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Boot Line Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+    <style>
+        .canvas-container {
+            border: 2px solid #007bff;
+            width: 75%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        @media screen and (min-width: 768px) {
+            .canvas-container {
+                max-width: 1000px;
+            }
+        }
+
+        @media screen and (min-width: 992px) {
+            .canvas-container {
+                max-width: 1200px;
+            }
+        }
+
+        @media screen and (min-width: 1200px) {
+            .canvas-container {
+                max-width: 1400px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="canvas-container">
+    <canvas id="myChart"></canvas>
+</div>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startDate = urlParams.get('startDate');
+  const endDate = urlParams.get('endDate');
+  const id = urlParams.get('curId');
+
+  fetch('/data?startDate=' + startDate + '&endDate=' + endDate + '&id=' + id)
+  .then(response => response.json())
+  .then(data => {
+
+    var labels = [];
+    var values = [];
+
+    data.forEach(item => {
+      labels.push(item.date);
+      values.push(parseFloat(item.money));
+    });
+
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: "Rete",
+          data: values,
+          fill: false,
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              unit: 'day'
+            }
+          }
+        }
+      }
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+</script>
+</body>
+</html>
