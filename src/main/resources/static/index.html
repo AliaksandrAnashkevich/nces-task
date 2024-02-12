@@ -62,21 +62,21 @@
     </div>
     <div>
         <label for="startDate">Дата начала:</label>
-        <input type="datetime-local" id="startDate" name="startDate">
+        <input type="date" id="startDate" name="startDate">
     </div>
     <div>
         <label for="endDate">Дата окончания:</label>
-        <input type="datetime-local" id="endDate" name="endDate">
+        <input type="date" id="endDate" name="endDate">
     </div>
     <button type="submit">Показать график</button>
 </form>
 <script>
-  let now = new Date();
-  let nowFormatted = now.toISOString().slice(0, 16);
-  let startDateInput = document.getElementById('startDate');
-  let endDateInput = document.getElementById('endDate')
-  startDateInput.setAttribute('max', nowFormatted);
-  endDateInput.setAttribute('max', nowFormatted)
+  // let now = new Date();
+  // let nowFormatted = now.toISOString().slice(0, 16);
+  // let startDateInput = document.getElementById('startDate');
+  // let endDateInput = document.getElementById('endDate')
+  // startDateInput.setAttribute('max', nowFormatted);
+  // endDateInput.setAttribute('max', nowFormatted)
 
   fetch('/currency')
   .then(response => response.json())
